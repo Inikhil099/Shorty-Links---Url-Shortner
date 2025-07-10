@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router();
-const {generateNew, GoToTheUrl} = require("../controllers/controller")
+const {generateNew, GoToTheUrl, GetAllUrls} = require("../controllers/controller")
 
 
-router.get('/:shortid',GoToTheUrl)
-
+router.get('/goto/:shortid',GoToTheUrl)
 router.post('/',generateNew)
+router.get("/allurls",GetAllUrls)
 
 module.exports = router;

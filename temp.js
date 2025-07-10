@@ -1,0 +1,1 @@
+console.log(new Date("2025-07-10T18:44:04.832Z").toLocaleDateString())

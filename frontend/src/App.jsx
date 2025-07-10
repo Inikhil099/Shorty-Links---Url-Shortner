@@ -26,14 +26,20 @@ function App() {
   const userinfo = useSelector((state)=>state.userinfo.uservalue)
   const dispatch = useDispatch()
 
-  const getalldata = async()=>{
+  const getUserData = async()=>{
+    try {
     const res = await axios.get("http://localhost:3000/user/get-user-data",{withCredentials:true})
-    dispatch(setUserInfo(res.data.userdetails))
+    if(res.status == 200 && res.data.userdetails._id){
+      dispatch(setUserInfo(res.data.userdetails))
+    }
+    } catch (error) {
+      dispatch(setUserInfo(undefined))
+    }
   }
 
   useEffect(() => {
     if(!userinfo){
-      getalldata()
+      getUserData()
     }
   }, [userinfo])
   
@@ -42,6 +48,7 @@ function App() {
     <>
     <BrowserRouter>
     <Routes>
+      <Route path='/*' element={<Navigate to={"/signup"}/>}/>
       <Route path='/' element={<ProtectRoutes><Home/></ProtectRoutes>}/>
       <Route path='/login' element={<AuthRoute><Login/></AuthRoute>}/>
       <Route path='/signup' element={<AuthRoute><Signup/></AuthRoute>}/>

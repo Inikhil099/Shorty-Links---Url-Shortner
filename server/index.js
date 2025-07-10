@@ -9,12 +9,11 @@ const urlRouter = require("./routes/routes");
 const UserRouter = require("./routes/userRoute");
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
 
-connection("mongodb://127.0.0.1:27017/urlDb").then(()=>{
+connection("mongodb://127.0.0.1:27017/shortylinks").then(()=>{
   console.log("db conntected")
 });
 
-app.set("view engine", "ejs");
-app.set("views", "./views");
+
 
 app.use(express.json());
 app.use(cors({
