@@ -59,7 +59,7 @@ const LoadingScreen = ({ isError = false }) => {
         }`}
       >
         {isError
-          ? "Couldn't find Your Details. Redirecting to login..."
+          ? "Couldn't find User Details. Redirecting to login..."
           : 'Loading user data...'}
       </p>
     </motion.div>
