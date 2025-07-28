@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import { setUserInfo } from '../redux/slices/UserSlice';
+import { toast } from 'sonner';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,11 +15,10 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post("http://localhost:3000/user/login", { email, password }, { withCredentials: true })
-      // console.log(res)
       dispatch(setUserInfo(res.data.user))
       navigate("/")
     } catch (error) {
-      console.log(error)
+       toast.error(error.response.data)
     }
   };
 

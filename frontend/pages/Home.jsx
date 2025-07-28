@@ -104,7 +104,7 @@ function Home() {
 
                         <td className="py-3 px-4">{e.visitHistory.length}</td>
 
-                        <td className="py-3 px-4">{e.createdAt}</td>
+                        <td className="py-3 px-4">{new Date(e.createdAt).toLocaleDateString('en-GB')}</td>
 
                         <td className="py-3 px-4">
                           <Link

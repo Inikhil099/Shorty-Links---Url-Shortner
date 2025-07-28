@@ -48,8 +48,8 @@ function App() {
             setisError(true)
             setTimeout(() => {
               setloading(false)
-            }, 3000);
-          }, 5000);
+            }, 2000);
+          }, 3000);
         }
 
 
