@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/user/login", { email, password }, { withCredentials: true })
+      const res = await axios.post("http://localhost:3000/auth/login", { email, password }, { withCredentials: true })
       dispatch(setUserInfo(res.data.user))
       navigate("/")
     } catch (error) {

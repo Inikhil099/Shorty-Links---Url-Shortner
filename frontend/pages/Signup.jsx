@@ -27,8 +27,7 @@ const Signup = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/user/signup", { userData }, { withCredentials: true })
-      // console.log(res.data.user)
+      const res = await axios.post("http://localhost:3000/auth/signup", { userData }, { withCredentials: true })
       dispatch(setUserInfo(res.data.newuser))
       navigate("/")
 

@@ -3,11 +3,11 @@ const { getUser } = require("../service/auth");
 async function restrictToLoggedinUserOnly(req, res, next) {
   const userUid = req.cookies?.uid;
   if (!userUid) {
-    return res.status(400).send("You're not logged in");
+    return res.status(400).redirect("http://localhost:5173")
   }
   const user = getUser(userUid);
   if (!user) {
-    return res.status(400).send("You're not authenticated login first");
+    return res.status(400).redirect("http://localhost:5173");
   }
 
   req.user = user;

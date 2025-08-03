@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiox from "axios";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -8,10 +8,9 @@ function Home() {
 
   const handleGetAllUrls = async () => {
     try {
-      const res = await axiox.get("http://localhost:3000/url/allurls", {
+      const res = await axios.get("http://localhost:3000/url/allurls", {
         withCredentials: true,
       });
-      // console.log(res.data.allurls)
       setAllUrls(res.data.allurls);
     } catch (error) {
       console.log(error);
@@ -20,13 +19,13 @@ function Home() {
 
   const handleGenerateUrl = async () => {
     try {
-      const res = await axiox.post(
+      const cleanUrl = url.replace(/^(https?:\/\/)+/, '')
+      const res = await axios.post(
         "http://localhost:3000/url",
-        { Url: `https://${url}`},
+        { Url: `https://${cleanUrl}`},
         { withCredentials: true }
       );
       if (res.status == 200 && res.data.generatedUrl) {
-        // AllUrls.push(res.data.generatedUrl)
         setAllUrls((prevUrls) => [...prevUrls, res.data.generatedUrl]);
         seturl("")
       }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enter OTP</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #2c0f13, #a83247);
+        color: #fff;
+      }
+
+      .otp-form {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 400px;
+      }
+
+      .otp-form h2 {
+        margin-bottom: 1rem;
+      }
+
+      .otp-form input[type="text"] {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      .otp-form button {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        background-color: #e63946;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .otp-form button:hover {
+        background-color: #d62839;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="otp-form" action="/auth/verifyEmailWithOTP" method="POST">
+      <% if (locals.errmsg) { %>
+       <h1 style="color: red;"><%= errmsg %></h1>
+      <% } %>
+      <% if (locals.msg) { %>
+      <p class="time"><%=msg %></p>
+      <% } %>
+      <h2>Enter Email Verification OTP</h2>
+      <input type="text" name="otp" placeholder="Enter OTP" required />
+      <button type="submit">Verify</button>
+    </form>
+  </body>
+</html>
+<!-- emailverificationpage -->
