@@ -80,6 +80,12 @@ async function getUserData(req, res) {
   }
 }
 
+
+
+
+
+// these controllers are for email verification
+
 async function EmailNotVerifed(req, res) {
   try {
     const user = await User.findOne({ _id: req.user._id });
@@ -97,7 +103,8 @@ async function EmailNotVerifed(req, res) {
       });
     }
     const OTP = Math.floor(1000 + Math.random() * 9000);
-    await SendVerificationEmail(user.email, OTP);
+    // await SendVerificationEmail(user.email, OTP);
+
     const update = await User.findOneAndUpdate(
       { _id: req.user._id },
       { token: OTP, tokenExpiresAt: new Date() },
@@ -112,24 +119,33 @@ async function EmailNotVerifed(req, res) {
 async function VerifyEmailOTP(req, res) {
   try {
     const { otp } = req.body;
+    console.log(otp)
+    const TestOTP = 1234
     if (!otp) {
       return res.status(400).send("Verification OTP is Requred");
     }
     const user = await User.findOne({ email: req.user.email });
 
-    if (user.token != otp) {
-      return res.status(400).render("emailverificationpage",{
-        errmsg:"Wrong Verification OTP"
-      })
-    }
-
-    // if (otp != 1234) {
+    
+    // if (user.token != otp) {
     //   return res.status(400).render("emailverificationpage",{
     //     errmsg:"Wrong Verification OTP"
     //   })
     // }
 
-    const update = await User.findOneAndUpdate(
+
+    // testing the otp without mailtap
+    if (otp != TestOTP) {
+      return res.status(400).render("emailverificationpage",{
+        errmsg:"Wrong Verification OTP"
+      })
+    }
+
+
+
+    // this one is for when using the mailtrap paid service
+
+    const update = await User.findOneAndUpdate(  
       { email: req.user.email },
       { isVerified: true, tokenExpiresAt: "compeleted", token: null },
       { new: true }

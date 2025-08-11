@@ -29,10 +29,14 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       default: new Date(),
     },
+    isAdmin:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );
 
-const Users = mongoose.model("user", userSchema);
+const Users = mongoose.model("users", userSchema);
 
 module.exports = Users;

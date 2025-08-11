@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const urlRouter = require("./routes/routes");
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
+const adminRouter = require("./routes/adminRoutes");
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
 const path = require("path")
 
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/user",userRouter)
 app.use("/url", restrictToLoggedinUserOnly, urlRouter);
+app.use("/admin", adminRouter);
 
 
 
