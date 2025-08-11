@@ -2,7 +2,7 @@ const { verificationTemplate } = require("./mailTemplate")
 const { mailClient, sender } = require("./mailtrap")
 
 async function SendVerificationEmail(email,verificationToken){
-    const recipients = [{email:"nikhilraikwar229@gmail.com"}]
+    const recipients = [{email:"youremail@gmail.com"}]
     try {
         const res = await mailClient.send({
             from:sender,

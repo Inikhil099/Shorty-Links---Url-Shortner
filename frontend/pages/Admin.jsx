@@ -3,47 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Admin() {
-  // Dummy data
-  const dummyUsers = [
-    {
-      id: 1,
-      name: "Alice",
-      email: "alice@example.com",
-      joinedAt: "2025-06-01",
-    },
-    { id: 2, name: "Bob", email: "bob@example.com", joinedAt: "2025-06-05" },
-    {
-      id: 3,
-      name: "Charlie",
-      email: "charlie@example.com",
-      joinedAt: "2025-06-07",
-    },
-  ];
-
-  const dummyUrls = [
-    {
-      shortId: "abc123",
-      redirectUrl: "https://google.com",
-      createdAt: "2025-08-01T10:00:00Z",
-      visitHistory: [1, 2, 3],
-      createdBy: "Alice",
-    },
-    {
-      shortId: "xyz456",
-      redirectUrl: "https://youtube.com",
-      createdAt: "2025-08-02T14:00:00Z",
-      visitHistory: [],
-      createdBy: "Bob",
-    },
-    {
-      shortId: "admin999",
-      redirectUrl: "https://openai.com",
-      createdAt: "2025-08-04T09:00:00Z",
-      visitHistory: [1],
-      createdBy: "Admin",
-    },
-  ];
-
   const [url, setUrl] = useState("");
   const [adminUrls, setAdminUrls] = useState([]);
   const [allUrls, setAllUrls] = useState([]);
@@ -99,7 +58,7 @@ function Admin() {
             <tbody>
               {allUsers.map((user,index) => (
                 <tr key={index} className="hover:bg-gray-800">
-                  <td className="py-3 px-4">{user.firstname}</td>
+                  <td className="py-3 px-4">{user.firstname} {user.lastname}</td>
                   <td className="py-3 px-4">{allUrls.filter(x => x.createdBy.firstname === user.firstname).length}</td>
                   <td className="py-3 px-4">{user.email}</td>
                   <td className="py-3 px-4">
@@ -134,7 +93,7 @@ function Admin() {
                   <td className="py-3 px-4 truncate max-w-[250px]">
                     {url.redirectUrl}
                   </td>
-                  <td className="py-3 px-4">{url.createdBy.firstname}</td>
+                  <td className="py-3 px-4">{url.createdBy.firstname} {url.createdBy.lastname}</td>
                   <td className="py-3 px-4">{url.visitHistory.length}</td>
                   <td className="py-3 px-4">
                     {new Date(url.createdAt).toLocaleDateString()}

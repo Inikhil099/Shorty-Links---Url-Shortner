@@ -12,7 +12,7 @@ const sender = {
 };
 const recipients = [
   {
-    email: "nikhilraikwar229@gmail.com",
+    email: "youemail@gmail.com",
   }
 ];
 
