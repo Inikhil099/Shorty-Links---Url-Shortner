@@ -14,6 +14,30 @@ const Signup = () => {
     confirmPassword: '',
   });
 
+  const valieDateSignUp = ()=>{
+    if(!userData.firstname){
+      toast.error("First Name is Required")
+      return false;
+    }
+    if(!userData.lastname){
+      toast.error("Last Name is Required")
+      return false;
+    }
+    if(!userData.email){
+      toast.error("Email is Required")
+      return false;
+    }
+    if(!userData.password){
+      toast.error("Password is Required")
+      return false;
+    }
+    if(userData.confirmPassword !== userData.password){
+      toast.error("Password and Confirm Password does not match")
+      return false;
+    }
+    return true;
+  }
+
   const navigate = useNavigate()
   const userinfo = useSelector((state)=>state.userinfo.uservalue)
   const dispatch = useDispatch()
@@ -26,6 +50,9 @@ const Signup = () => {
   };
 
   const handleSubmit = async () => {
+    if(!valieDateSignUp()){
+      return;
+    }
     try {
       const res = await axios.post("http://localhost:3000/auth/signup", { userData }, { withCredentials: true })
       console.log(res.data.newuser)

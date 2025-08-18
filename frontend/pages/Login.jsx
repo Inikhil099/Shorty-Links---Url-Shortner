@@ -13,6 +13,9 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const handleSubmit = async () => {
+    if(!valiDateLogin()){
+      return;
+    }
     try {
       const res = await axios.post("http://localhost:3000/auth/login", { email, password }, { withCredentials: true })
       dispatch(setUserInfo(res.data.user))
@@ -21,6 +24,18 @@ const Login = () => {
        toast.error(error.response.data)
     }
   };
+
+  const valiDateLogin = ()=>{
+    if(!email){
+      toast.error("Email is Required")
+      return false 
+    }
+    if(!password){
+      toast.error("password is Required")
+      return false 
+    }
+    return true
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 p-4">

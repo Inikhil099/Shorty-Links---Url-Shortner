@@ -26,10 +26,10 @@ const ProtectAdminRoutes = ({ children }) => {
 const ProtectRoutes = ({ children }) => {
   const userinfo = useSelector((state) => state.userinfo.uservalue);
   const isAuthenticated = !!userinfo;
-  if (userinfo && !userinfo.isVerified) {
-    return (window.location.href =
-      "http://localhost:3000/auth/emailverificationpage");
-  }
+  // if (userinfo && !userinfo.isVerified) {
+  //   return (window.location.href =
+  //     "http://localhost:3000/auth/emailverificationpage");
+  // }
   return isAuthenticated ? children : <Navigate to={"/login"} />;
 };
 

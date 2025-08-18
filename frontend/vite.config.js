@@ -13,9 +13,6 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  server: {
-    port: 5173, // set your desired port here
-  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

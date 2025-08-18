@@ -4,6 +4,6 @@ const { getUserData } = require("../controllers/userController");
 const router = express.Router()
 
 
-router.get("/get-user-data",restrictToLoggedinUserOnly, getUserData);
+router.get("/get-user-data", getUserData);
 
 module.exports = router

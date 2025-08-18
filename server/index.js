@@ -15,14 +15,15 @@ const path = require("path")
 connection("mongodb://127.0.0.1:27017/shortylinks").then(()=>{
   console.log("db conntected")
 });
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true,
+  methods:["GET","POST","PUT","PATCH","DELETE"]
+}))
 
 
 
 app.use(express.json());
-app.use(cors({
-  origin:"http://localhost:5173",
-  credentials:true,
-}))
 
 app.set("view engine","ejs")
 app.set("views",path.resolve("./views"))
@@ -32,9 +33,9 @@ app.use(cookieParser());
 
 
 app.use("/auth", authRouter);
-app.use("/user",userRouter)
+app.use("/user",restrictToLoggedinUserOnly,userRouter)
 app.use("/url", restrictToLoggedinUserOnly, urlRouter);
-app.use("/admin", adminRouter);
+app.use("/admin",restrictToLoggedinUserOnly, adminRouter);
 
 
 
