@@ -39,7 +39,7 @@ app.use("/admin",restrictToLoggedinUserOnly, adminRouter);
 
 
 app.get("/",(req,res)=>{
-  return res.send("hello from the shorty backend")
+  return res.send("<div>hell from the server side </div>")
 })
 
 
