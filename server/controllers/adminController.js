@@ -2,7 +2,6 @@ const URL = require("../models/urlModel")
 const Users = require("../models/usersModel")
 
 async function GetDetailsForAdmin(req,res) {
-    console.log("req received")
     try {
         const AllUsers = await Users.find({})
         const AllUrls = await URL.find({}).populate("createdBy")
