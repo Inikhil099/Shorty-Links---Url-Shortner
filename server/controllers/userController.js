@@ -7,6 +7,9 @@ const maxAge = 3 * 24 * 60 * 60 * 1000;
 async function handleSignup(req, res) {
   try {
     const { firstname, lastname, email, password } = req.body.userData;
+    if(!firstname || !lastname || !email || !password){
+      return res.status(400).send("All the details are required")
+    }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).send("User Already Exist");
@@ -31,7 +34,8 @@ async function handleSignup(req, res) {
 
     return res.json({ newuser });
   } catch (error) {
-    return res.status(500).send("Internal server error");
+    return res.send(`<div>${error}</div>`)
+    // return res.status(500).send("Internal server error");
   }
 }
 

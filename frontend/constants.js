@@ -1,1 +1,1 @@
-export const backend_url = "url"
+export const backend_url = "https://shorty-backend-ruddy.vercel.app"

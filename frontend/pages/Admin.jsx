@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { backend_url } from "../constants";
 
 function Admin() {
   const [url, setUrl] = useState("");
@@ -10,7 +11,7 @@ function Admin() {
 
   useEffect(() => {
     const getDataForAdmin = async () => {
-      const res = await axios.get("http://localhost:3000/admin");
+      const res = await axios.get(`${backend_url}/admin`);
       if (res.status == 200) {
         setAllUsers(res.data.details.AllUsers);
         setAllUrls(res.data.details.AllUrls);
@@ -100,7 +101,7 @@ function Admin() {
                   </td>
                   <td className="py-3 px-4">
                     <Link
-                      to={`http://localhost:3000/url/goto/${url.shortId}`}
+                      to={`${backend_url}/url/goto/${url.shortId}`}
                       className="text-green-400 hover:underline"
                     >
                       Visit

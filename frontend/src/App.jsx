@@ -10,6 +10,7 @@ import { setUserInfo } from "../redux/slices/UserSlice";
 import LoadingScreen from "../pages/LoadingPage";
 import Admin from "../pages/Admin";
 import NotFound from "../pages/NotFound";
+import { backend_url } from "../constants";
 
 const AuthRoute = ({ children }) => {
   const userinfo = useSelector((state) => state.userinfo.uservalue);
@@ -28,7 +29,7 @@ const ProtectRoutes = ({ children }) => {
   const isAuthenticated = !!userinfo;
   // if (userinfo && !userinfo.isVerified) {
   //   return (window.location.href =
-  //     "http://localhost:3000/auth/emailverificationpage");
+      // `${backend_url}/auth/emailverificationpage`);
   // }
   return isAuthenticated ? children : <Navigate to={"/login"} />;
 };
@@ -43,7 +44,7 @@ function App() {
     const getUserData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/user/get-user-data",
+        `${backend_url}/user/get-user-data`,
           { withCredentials: true }
         );
         if (res.status == 200 && res.data.userdetails._id) {
