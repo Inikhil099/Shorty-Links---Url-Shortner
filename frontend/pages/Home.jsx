@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { backend_url } from "../constants";
 
 function Home() {
   const [url, seturl] = useState("");
@@ -8,7 +9,7 @@ function Home() {
 
   const handleGetAllUrls = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/url/allurls", {
+      const res = await axios.get(`${backend_url}/url/allurls`, {
         withCredentials: true,
       });
       setAllUrls(res.data.allurls);
@@ -21,7 +22,7 @@ function Home() {
     try {
       const cleanUrl = url.replace(/^(https?:\/\/)+/, '')
       const res = await axios.post(
-        "http://localhost:3000/url",
+        `${backend_url}/url`,
         { Url: `https://${cleanUrl}`},
         { withCredentials: true }
       );

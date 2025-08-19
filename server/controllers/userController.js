@@ -11,6 +11,7 @@ async function handleSignup(req, res) {
     if (user) {
       return res.status(400).send("User Already Exist");
     }
+    console.log("user not found")
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newuser = await User.create({
@@ -21,6 +22,7 @@ async function handleSignup(req, res) {
     });
 
     const token = setUser(newuser);
+    console.log(token)
     res.cookie("uid", token, {
       maxAge,
       secure: true,
@@ -61,19 +63,11 @@ async function handleLogin(req, res) {
 
 async function getUserData(req, res) {
   try {
-    const token = req.cookies?.uid;
-    if (!token) {
-      return res.status(400).send("you're not logged in");
-    }
-    const user = getUser(token);
-    if (!user) {
-      return res.status(400).send("user not authorised");
-    }
-
-    const userdetails = await User.findById(user._id);
+    const userdetails = await User.findById(req.user._id);
     if (!userdetails) {
       return res.status(400).send("user not found");
     }
+    console.log("user data successfull")
     return res.json({ userdetails });
   } catch (error) {
     res.status(500).send("Internal Server Error");

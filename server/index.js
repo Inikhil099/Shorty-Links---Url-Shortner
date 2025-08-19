@@ -11,12 +11,12 @@ const userRouter = require("./routes/userRoutes");
 const adminRouter = require("./routes/adminRoutes");
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
 const path = require("path")
-
-connection("mongodb://127.0.0.1:27017/shortylinks").then(()=>{
+require("dotenv").config()
+connection(process.env.DB_URI).then(()=>{
   console.log("db conntected")
 });
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:process.env.ORIGIN,
   credentials:true,
   methods:["GET","POST","PUT","PATCH","DELETE"]
 }))
@@ -38,7 +38,9 @@ app.use("/url", restrictToLoggedinUserOnly, urlRouter);
 app.use("/admin",restrictToLoggedinUserOnly, adminRouter);
 
 
-
+app.get("/",(req,res)=>{
+  return res.send("hello from the shorty backend")
+})
 
 
 app.listen(PORT, () => {

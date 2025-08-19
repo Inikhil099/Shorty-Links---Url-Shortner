@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import { setUserInfo } from '../redux/slices/UserSlice';
 import { toast } from 'sonner';
+import { backend_url } from '../constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = () => {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", { email, password }, { withCredentials: true })
+      const res = await axios.post(`${backend_url}/auth/login`, { email, password }, { withCredentials: true })
       dispatch(setUserInfo(res.data.user))
       navigate("/")
     } catch (error) {
