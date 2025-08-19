@@ -3,6 +3,7 @@ const Users = require("../models/usersModel")
 
 async function GetDetailsForAdmin(req,res) {
     try {
+        return res.send("inside the admin data")
         const AllUsers = await Users.find({})
         const AllUrls = await URL.find({}).populate("createdBy")
         return res.status(200).json({details:{AllUrls,AllUsers}})
