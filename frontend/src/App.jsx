@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import Home from "../pages/Home";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
@@ -21,7 +27,7 @@ const AuthRoute = ({ children }) => {
 const ProtectAdminRoutes = ({ children }) => {
   const userinfo = useSelector((state) => state.userinfo.uservalue);
   const isAuthenticated = !!userinfo;
-  return isAuthenticated && userinfo.isAdmin ? children : <NotFound />
+  return isAuthenticated && userinfo.isAdmin ? children : <NotFound />;
 };
 
 const ProtectRoutes = ({ children }) => {
@@ -29,7 +35,7 @@ const ProtectRoutes = ({ children }) => {
   const isAuthenticated = !!userinfo;
   // if (userinfo && !userinfo.isVerified) {
   //   return (window.location.href =
-      // `${backend_url}/auth/emailverificationpage`);
+  // `${backend_url}/auth/emailverificationpage`);
   // }
   return isAuthenticated ? children : <Navigate to={"/login"} />;
 };
@@ -39,14 +45,14 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setloading] = useState(true);
   const [isError, setisError] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await axios.get(
-        `${backend_url}/user/get-user-data`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${backend_url}/user/get-user-data`, {
+          withCredentials: true,
+        });
         if (res.status == 200 && res.data.userdetails._id) {
           dispatch(setUserInfo(res.data.userdetails));
           setTimeout(() => {
@@ -70,54 +76,53 @@ function App() {
     }
   }, [userinfo]);
 
-  if (loading) {
+  const isAuths =
+    location.pathname === "/login" || location.pathname === "/signup";
+  if (loading && !isAuths) {
     return <LoadingScreen isError={isError} />;
   }
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<NotFound />} />
+      <Routes>
+        <Route path="/*" element={<NotFound />} />
 
-          <Route
-            path="/"
-            element={
-              <ProtectRoutes>
-                <Home />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <AuthRoute>
-                <Login />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <AuthRoute>
-                <Signup />
-              </AuthRoute>
-            }
-          />
+        <Route
+          path="/"
+          element={
+            <ProtectRoutes>
+              <Home />
+            </ProtectRoutes>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <AuthRoute>
+              <Login />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <AuthRoute>
+              <Signup />
+            </AuthRoute>
+          }
+        />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectAdminRoutes>
-                <Admin/>
-              </ProtectAdminRoutes>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path="/admin"
+          element={
+            <ProtectAdminRoutes>
+              <Admin />
+            </ProtectAdminRoutes>
+          }
+        />
+      </Routes>
     </>
   );
 }
 
 export default App;
-
