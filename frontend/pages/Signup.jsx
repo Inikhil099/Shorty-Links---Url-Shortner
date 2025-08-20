@@ -56,7 +56,6 @@ const Signup = () => {
     }
     try {
       const res = await axios.post(`${backend_url}/auth/signup`, { userData }, { withCredentials: true })
-      console.log(res.data.newuser)
       dispatch(setUserInfo(res.data.newuser))
       navigate("/")
 
