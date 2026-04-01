@@ -50,7 +50,7 @@ function App() {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await axios.get(`${backend_url}/user/get-user-data`, {
+        const res = await backend_url.get(`/user/get-user-data`, {
           withCredentials: true,
         });
         if (res.status == 200 && res.data.userdetails._id) {

@@ -11,7 +11,7 @@ function Admin() {
 
   useEffect(() => {
     const getDataForAdmin = async () => {
-      const res = await axios.get(`${backend_url}/admin`);
+      const res = await backend_url.get(`/admin`);
       if (res.status == 200) {
         setAllUsers(res.data.details.AllUsers);
         setAllUrls(res.data.details.AllUrls);

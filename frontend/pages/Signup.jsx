@@ -55,8 +55,9 @@ const Signup = () => {
       return;
     }
     try {
-      const res = await axios.post(`${backend_url}/auth/signup`, { userData }, { withCredentials: true })
+      const res = await backend_url.post(`/auth/signup`, { userData }, { withCredentials: true })
       dispatch(setUserInfo(res.data.newuser))
+      localStorage.setItem("token",res.data.token)
       navigate("/")
 
 

@@ -1,17 +1,25 @@
 const { getUser } = require("../service/auth");
 
 async function restrictToLoggedinUserOnly(req, res, next) {
-  const userUid = req.cookies.uid;
-  if (!userUid) {
-    return res.status(400).send("Login First 1")
-  }
-  const user = getUser(userUid);
-  if (!user) {
-    return res.status(400).send("error from the middle ware Login First");
-  }
+  let token;
 
-  req.user = user;
-  next();
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (!token) {
+      return res.status(401).send("Not authenticated");
+    }
+    const user = getUser(token);
+    if (!user) {
+      return res.status(401).send("Not authenticated");
+    }
+    console.log(user)
+    req.user = user;
+    next();
 }
 
 module.exports = { restrictToLoggedinUserOnly };

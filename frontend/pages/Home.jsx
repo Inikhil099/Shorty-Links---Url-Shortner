@@ -9,7 +9,7 @@ function Home() {
 
   const handleGetAllUrls = async () => {
     try {
-      const res = await axios.get(`${backend_url}/url/allurls`, {
+      const res = await backend_url.get(`/url/allurls`, {
         withCredentials: true,
       });
       setAllUrls(res.data.allurls);
@@ -20,15 +20,15 @@ function Home() {
 
   const handleGenerateUrl = async () => {
     try {
-      const cleanUrl = url.replace(/^(https?:\/\/)+/, '')
-      const res = await axios.post(
-        `${backend_url}/url`,
-        { Url: `https://${cleanUrl}`},
-        { withCredentials: true }
+      const cleanUrl = url.replace(/^(https?:\/\/)+/, "");
+      const res = await backend_url.post(
+        `/url`,
+        { Url: `https://${cleanUrl}` },
+        { withCredentials: true },
       );
       if (res.status == 200 && res.data.generatedUrl) {
         setAllUrls((prevUrls) => [...prevUrls, res.data.generatedUrl]);
-        seturl("")
+        seturl("");
       }
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ function Home() {
 
           <div className="max-w-2xl mx-auto flex gap-2 mb-4">
             <input
-            value={url}
+              value={url}
               type="text"
               onChange={(e) => {
                 seturl(e.target.value);
@@ -104,7 +104,9 @@ function Home() {
 
                         <td className="py-3 px-4">{e.visitHistory.length}</td>
 
-                        <td className="py-3 px-4">{new Date(e.createdAt).toLocaleDateString('en-GB')}</td>
+                        <td className="py-3 px-4">
+                          {new Date(e.createdAt).toLocaleDateString("en-GB")}
+                        </td>
 
                         <td className="py-3 px-4">
                           <Link

@@ -14,7 +14,6 @@ async function handleSignup(req, res) {
     if (user) {
       return res.status(400).send("User Already Exist");
     }
-    console.log("user not found");
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newuser = await User.create({
@@ -25,15 +24,8 @@ async function handleSignup(req, res) {
     });
 
     const token = setUser(newuser);
-    console.log(token);
-    res.cookie("uid", token, {
-      httpOnly: true,
-      maxAge,
-      secure: true,
-      sameSite: "None",
-    });
 
-    return res.json({ newuser });
+    return res.json({ newuser,token });
   } catch (error) {
     return res.send(`<div>${error}</div>`);
     // return res.status(500).send("Internal server error");
@@ -55,14 +47,8 @@ async function handleLogin(req, res) {
       return res.status(400).send("Incorrect Password");
     }
     const token = setUser(user);
-    res.cookie("uid", token, {
-      httpOnly: true,
-
-      maxAge,
-      secure: true,
-      sameSite: "None",
-    });
-    return res.status(200).json({ user });
+    
+    return res.status(200).json({ user,token });
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
@@ -74,7 +60,6 @@ async function getUserData(req, res) {
     if (!userdetails) {
       return res.status(400).send("user not found");
     }
-    console.log("user data successfull");
     return res.json({ userdetails });
   } catch (error) {
     res.status(500).send("Internal Server Error");

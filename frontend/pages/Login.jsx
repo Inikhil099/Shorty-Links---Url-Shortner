@@ -18,8 +18,9 @@ const Login = () => {
       return;
     }
     try {
-      const res = await axios.post(`${backend_url}/auth/login`, { email, password }, { withCredentials: true })
+      const res = await backend_url.post(`/auth/login`, { email, password }, { withCredentials: true })
       dispatch(setUserInfo(res.data.user))
+      localStorage.setItem("token",res.data.token)
       navigate("/")
     } catch (error) {
        toast.error(error.response.data)
