@@ -30,7 +30,7 @@ async function GoToTheUrl(req, res) {
       $push: {
         visitHistory: { timestamps: Date.now() },
       },
-    }
+    },
   );
 
   return res.redirect(entry.redirectUrl);
@@ -39,9 +39,6 @@ async function GoToTheUrl(req, res) {
 async function GetAllUrls(req, res) {
   try {
     const allurls = await dbURL.find({ createdBy: req.user._id });
-    if (!allurls) {
-      return res.json({ allurls: [] });
-    }
     return res.status(200).json({ allurls });
   } catch (error) {
     return res.status(500).send("Internal server error");

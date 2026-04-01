@@ -7,14 +7,14 @@ const maxAge = 3 * 24 * 60 * 60 * 1000;
 async function handleSignup(req, res) {
   try {
     const { firstname, lastname, email, password } = req.body.userData;
-    if(!firstname || !lastname || !email || !password){
-      return res.status(400).send("All the details are required")
+    if (!firstname || !lastname || !email || !password) {
+      return res.status(400).send("All the details are required");
     }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).send("User Already Exist");
     }
-    console.log("user not found")
+    console.log("user not found");
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newuser = await User.create({
@@ -25,8 +25,9 @@ async function handleSignup(req, res) {
     });
 
     const token = setUser(newuser);
-    console.log(token)
+    console.log(token);
     res.cookie("uid", token, {
+      httpOnly: true,
       maxAge,
       secure: true,
       sameSite: "None",
@@ -34,7 +35,7 @@ async function handleSignup(req, res) {
 
     return res.json({ newuser });
   } catch (error) {
-    return res.send(`<div>${error}</div>`)
+    return res.send(`<div>${error}</div>`);
     // return res.status(500).send("Internal server error");
   }
 }
@@ -55,6 +56,8 @@ async function handleLogin(req, res) {
     }
     const token = setUser(user);
     res.cookie("uid", token, {
+      httpOnly: true,
+
       maxAge,
       secure: true,
       sameSite: "None",
@@ -71,16 +74,12 @@ async function getUserData(req, res) {
     if (!userdetails) {
       return res.status(400).send("user not found");
     }
-    console.log("user data successfull")
+    console.log("user data successfull");
     return res.json({ userdetails });
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
 }
-
-
-
-
 
 // these controllers are for email verification
 
@@ -106,7 +105,7 @@ async function EmailNotVerifed(req, res) {
     const update = await User.findOneAndUpdate(
       { _id: req.user._id },
       { token: OTP, tokenExpiresAt: new Date() },
-      { new: true }
+      { new: true },
     );
     return res.render("emailverificationpage");
   } catch (error) {
@@ -117,36 +116,32 @@ async function EmailNotVerifed(req, res) {
 async function VerifyEmailOTP(req, res) {
   try {
     const { otp } = req.body;
-    console.log(otp)
-    const TestOTP = 1234
+    console.log(otp);
+    const TestOTP = 1234;
     if (!otp) {
       return res.status(400).send("Verification OTP is Requred");
     }
     const user = await User.findOne({ email: req.user.email });
 
-    
     // if (user.token != otp) {
     //   return res.status(400).render("emailverificationpage",{
     //     errmsg:"Wrong Verification OTP"
     //   })
     // }
 
-
     // testing the otp without mailtap
     if (otp != TestOTP) {
-      return res.status(400).render("emailverificationpage",{
-        errmsg:"Wrong Verification OTP"
-      })
+      return res.status(400).render("emailverificationpage", {
+        errmsg: "Wrong Verification OTP",
+      });
     }
-
-
 
     // this one is for when using the mailtrap paid service
 
-    const update = await User.findOneAndUpdate(  
+    const update = await User.findOneAndUpdate(
       { email: req.user.email },
       { isVerified: true, tokenExpiresAt: "compeleted", token: null },
-      { new: true }
+      { new: true },
     );
     return res.status(200).redirect("http://localhost:5173");
   } catch (error) {
