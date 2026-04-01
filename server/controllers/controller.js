@@ -21,6 +21,7 @@ async function generateNew(req, res) {
 }
 
 async function GoToTheUrl(req, res) {
+  console.log("inside goto")
   const shortId = req.params.shortid;
   const entry = await dbURL.findOneAndUpdate(
     {
@@ -32,6 +33,7 @@ async function GoToTheUrl(req, res) {
       },
     },
   );
+  console.log("redirecting to the url")
 
   return res.redirect(entry.redirectUrl);
 }

@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/user", restrictToLoggedinUserOnly, userRouter);
-app.use("/url", restrictToLoggedinUserOnly, urlRouter);
+app.use("/url", urlRouter);
 app.use("/admin", restrictToLoggedinUserOnly, adminRouter);
 
 app.get("/", (req, res) => {

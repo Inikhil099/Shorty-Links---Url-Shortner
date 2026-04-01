@@ -110,7 +110,7 @@ function Home() {
 
                         <td className="py-3 px-4">
                           <Link
-                            to={`${backend_url}/url/goto/${e.shortId}`}
+                            to={`http://3.111.197.208:3002/url/goto/${e.shortId}`}
                             className="text-green-400 cursor-pointer hover:underline"
                           >
                             Go to URL
