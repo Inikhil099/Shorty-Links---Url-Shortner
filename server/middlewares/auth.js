@@ -17,7 +17,6 @@ async function restrictToLoggedinUserOnly(req, res, next) {
     if (!user) {
       return res.status(401).send("Not authenticated");
     }
-    console.log(user)
     req.user = user;
     next();
 }
