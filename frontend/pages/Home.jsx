@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { backend_url } from "../constants";
+const url = import.meta.env.VITE_API_URL;
 
 function Home() {
   const [url, seturl] = useState("");
@@ -110,7 +111,7 @@ function Home() {
 
                         <td className="py-3 px-4">
                           <Link
-                            to={`http://15.206.94.92:3002/url/goto/${e.shortId}`}
+                            to={`${url}/url/goto/${e.shortId}`}
                             className="text-green-400 cursor-pointer hover:underline"
                           >
                             Go to URL
