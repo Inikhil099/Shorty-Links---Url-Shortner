@@ -45,10 +45,10 @@ function Home() {
       <div className="min-h-screen bg-[#0d1117] text-white px-6 py-8">
         <div className="text-center">
           <h2 className="text-4xl font-bold mb-2 text-pink-500">
-            Bit Links :)
+            Byte URL :)
           </h2>
           <p className="text-gray-400 mb-6">
-            Bit Links is an effiecient and easy to use URL shortening service
+            Byte URL is an effiecient and easy to use URL shortening service
             that streamlines your online experience
           </p>
 
