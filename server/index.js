@@ -3,13 +3,14 @@ const app = express();
 const cors = require("cors");
 const { connection } = require("./dbconnection");
 const dbURL = require("./models/urlModel");
+const path = require("path");
+const cron = require("node-cron")
 const cookieParser = require("cookie-parser");
 const urlRouter = require("./routes/routes");
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const adminRouter = require("./routes/adminRoutes");
 const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
-const path = require("path");
 
 require("dotenv").config();
 
@@ -33,6 +34,15 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+cron.schedule("*/10 * * * *", async () => {
+  try {
+    const res = await fetch(`${process.env.ORIGIN}/health`);
+    console.log("Pinged:", res.status);
+  } catch (err) {
+    console.error("Error:", err.message);
+  }
+});
+
 app.use("/auth", authRouter);
 app.use("/user", restrictToLoggedinUserOnly, userRouter);
 app.use("/url", urlRouter);
@@ -46,7 +56,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   return res.json({ msg: "Bit Links server is running" });
 });
 
