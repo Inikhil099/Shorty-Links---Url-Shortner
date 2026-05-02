@@ -13,7 +13,10 @@ const path = require("path");
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3000;
+
+const _dirname = path.resolve();
+
 app.use(
   cors({
     origin: process.env.ORIGIN,
@@ -35,8 +38,16 @@ app.use("/user", restrictToLoggedinUserOnly, userRouter);
 app.use("/url", urlRouter);
 app.use("/admin", restrictToLoggedinUserOnly, adminRouter);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(_dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(_dirname, "frontend", "dist", "index.html"));
+  });
+}
+
 app.get("/", (req, res) => {
-  return res.send("<div>hell from the server side </div>");
+  return res.json({ msg: "Bit Links server is running" });
 });
 
 connection(process.env.DB_URI).then(() => {
