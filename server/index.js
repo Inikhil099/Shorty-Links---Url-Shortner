@@ -58,7 +58,7 @@ app.use("/url", urlRouter);
 app.use("/admin", restrictToLoggedinUserOnly, adminRouter);
 
 app.get("/health", (req, res) => {
-  return res.json({ msg: "Bit Links server is running" });
+  return res.json({ msg: "Byte URL server is running" });
 });
 
 if (process.env.NODE_ENV === "production") {
