@@ -45,8 +45,8 @@ app.use(cookieParser());
 
 setInterval(
   async () => {
-    const f = await fetch("/health");
-    const data = await f.json();
+    const f = await fetch(`${process.env.ORIGIN}/health`);
+    const data = await f.text()
     console.log(data);
   },
   1000 * 60 * 5,
