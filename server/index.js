@@ -4,7 +4,7 @@ const cors = require("cors");
 const { connection } = require("./dbconnection");
 const dbURL = require("./models/urlModel");
 const path = require("path");
-const cron = require("node-cron")
+const cron = require("node-cron");
 const cookieParser = require("cookie-parser");
 const urlRouter = require("./routes/routes");
 const authRouter = require("./routes/authRoutes");
@@ -34,19 +34,32 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-cron.schedule("*/10 * * * *", async () => {
-  try {
-    const res = await fetch(`${process.env.ORIGIN}/health`);
-    console.log("Pinged:", res.status);
-  } catch (err) {
-    console.error("Error:", err.message);
-  }
-});
+// cron.schedule("*/10 * * * *", async () => {
+//   try {
+//     const res = await fetch(`${process.env.ORIGIN}/health`);
+//     console.log("Pinged:", res.status);
+//   } catch (err) {
+//     console.error("Error:", err.message);
+//   }
+// });
+
+setInterval(
+  async () => {
+    const f = await fetch("/health");
+    const data = await f.json();
+    console.log(data);
+  },
+  1000 * 60 * 5,
+);
 
 app.use("/auth", authRouter);
 app.use("/user", restrictToLoggedinUserOnly, userRouter);
 app.use("/url", urlRouter);
 app.use("/admin", restrictToLoggedinUserOnly, adminRouter);
+
+app.get("/health", (req, res) => {
+  return res.json({ msg: "Bit Links server is running" });
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(_dirname, "../frontend/dist")));
@@ -55,10 +68,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(_dirname, "frontend", "dist", "index.html"));
   });
 }
-
-app.get("/health", (req, res) => {
-  return res.json({ msg: "Bit Links server is running" });
-});
 
 connection(process.env.DB_URI).then(() => {
   console.log("db conntected");
