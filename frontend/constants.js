@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "https://vote-perl-keen-ace.trycloudflare.com"
+const url = "https://contest-basis-just-accuracy.trycloudflare.com"
 const baseURL = url;
 export const backend_url = axios.create({ baseURL });
 backend_url.interceptors.request.use((cfg) => {
