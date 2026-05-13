@@ -34,23 +34,16 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// cron.schedule("*/10 * * * *", async () => {
-//   try {
-//     const res = await fetch(`${process.env.ORIGIN}/health`);
-//     console.log("Pinged:", res.status);
-//   } catch (err) {
-//     console.error("Error:", err.message);
-//   }
-// });
 
-setInterval(
-  async () => {
-    const f = await fetch(`${process.env.ORIGIN}/health`);
-    const data = await f.text()
-    console.log(data);
-  },
-  1000 * 60 * 10,
-);
+
+// setInterval(
+//   async () => {
+//     const f = await fetch(`${process.env.ORIGIN}/health`);
+//     const data = await f.text()
+//     console.log(data);
+//   },
+//   1000 * 60 * 10,
+// );
 
 app.use("/auth", authRouter);
 app.use("/user", restrictToLoggedinUserOnly, userRouter);
@@ -61,13 +54,13 @@ app.get("/health", (req, res) => {
   return res.json({ msg: "Byte URL server is running" });
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(_dirname, "../frontend/dist")));
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(_dirname, "../frontend/dist")));
 
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(_dirname, "../frontend/dist/index.html"));
-  });
-}
+//   app.get("/*", (req, res) => {
+//     res.sendFile(path.join(_dirname, "../frontend/dist/index.html"));
+//   });
+// }
 
 connection(process.env.DB_URI).then(() => {
   console.log("db conntected");
