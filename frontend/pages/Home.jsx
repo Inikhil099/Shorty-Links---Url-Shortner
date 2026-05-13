@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { backend_url } from "../constants";
-const OriginUrl = import.meta.env.VITE_API_URL;
+import { toast } from "sonner";
+const OriginUrl = "https://contest-basis-just-accuracy.trycloudflare.com";
 
 function Home() {
   const [url, seturl] = useState("");
@@ -21,6 +22,9 @@ function Home() {
 
   const handleGenerateUrl = async () => {
     try {
+      if(!url.trim()){
+        return toast.error("URL is required")
+      }
       const cleanUrl = url.replace(/^(https?:\/\/)+/, "");
       const res = await backend_url.post(
         `/url`,
