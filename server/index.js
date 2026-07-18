@@ -34,8 +34,6 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
-
 app.use("/auth", authRouter);
 app.use("/user", restrictToLoggedinUserOnly, userRouter);
 app.use("/url", urlRouter);
@@ -46,12 +44,17 @@ app.get("/health", (req, res) => {
   return res.json({ msg: "Byte URL server is running" });
 });
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(_dirname, "../frontend/dist")));
 
+  app.get("/{*any}", (req, res) => {
+    res.sendFile(path.join(_dirname, "../frontend/dist/index.html"));
+  });
+}
 
 connection(process.env.DB_URI).then(() => {
   console.log("db conntected");
   app.listen(PORT, () => {
-
     console.log("server running on port ", PORT);
   });
 });
