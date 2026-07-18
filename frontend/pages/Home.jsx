@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { backend_url } from "../constants";
 import { toast } from "sonner";
-const OriginUrl = "https://contest-basis-just-accuracy.trycloudflare.com";
+const OriginUrl = "https://byteurl.onrender.com";
 
 function Home() {
   const [url, seturl] = useState("");
