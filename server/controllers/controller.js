@@ -21,19 +21,27 @@ async function generateNew(req, res) {
 }
 
 async function GoToTheUrl(req, res) {
-  const shortId = req.params.shortid;
-  const entry = await dbURL.findOneAndUpdate(
-    {
-      shortId,
-    },
-    {
-      $push: {
-        visitHistory: { timestamps: Date.now() },
+  try {
+    const shortId = req.params.shortid;
+    if (!shortId) {
+      return res.status(400).send("ShortId is required");
+    }
+    const entry = await dbURL.findOneAndUpdate(
+      {
+        shortId,
       },
-    },
-  );
+      {
+        $push: {
+          visitHistory: { timestamps: Date.now() },
+        },
+      },
+    );
+    if (!entry) {
+      return res.status(400).send("Wrong url or shortid");
+    }
 
-  return res.redirect(entry.redirectUrl);
+    return res.redirect(entry.redirectUrl);
+  } catch (error) {}
 }
 
 async function GetAllUrls(req, res) {
