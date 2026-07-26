@@ -115,6 +115,7 @@ function Home() {
 
                         <td className="py-3 px-4">
                           <Link
+                          target="_blank"
                             to={`${OriginUrl}/url/goto/${e.shortId}`}
                             className="text-green-400 cursor-pointer hover:underline"
                           >
